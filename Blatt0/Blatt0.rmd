@@ -1,0 +1,95 @@
+---
+title: "Blatt0"
+author: "Tobias"
+date: "11 5 2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Aufgabe 2
+#### a)
+```{r}
+A <- matrix(c(1,2,3, 4,5,6, 7,8,9), nrow = 3 , ncol = 3)
+B <- matrix(c(9,8,7, 6,5,4, 3,2,1), nrow = 3 , ncol = 3)
+
+C = A%*%B
+C
+```
+Es handelt sich nicht um eine elementweise Multiplikation sondern um eine normale Matritzenmultiplikation
+#### b)
+```{r}
+x = seq(-2*pi,2*pi,0.1)
+y = sin(x)
+plot(x,y)
+lines(x,y)
+```
+
+## Aufgabe 4
+
+```{r}
+data = read.csv("epilepsy.csv",header = TRUE)
+names(data)
+nrow(data)
+ncol(data)
+#data
+```
+
+```{r}
+plot(data$age, data$seizure.rate, col = "red", main = "Auswertung von Epilepsie-Daten",
+     xlab= "Alter (Jahre)", ylab = "Anfallsrate")
+```
+
+## Aufgabe 5
+
+```{r}
+Iris = datasets::iris
+
+names(Iris)
+```
+
+```{r}
+#varLengthSALT = 1/(150-1)*sum((Iris$Sepal.Length-mean(Iris$Sepal.Length))^2)
+
+varLengthS = var(Iris$Sepal.Length)
+varWidthS = var(Iris$Sepal.Width)
+varLengthP = var(Iris$Petal.Length)
+varWidthP = var(Iris$Petal.Width)
+
+barplot(c(varLengthS,varWidthS,varLengthP,varWidthP),names = names(Iris[,-5])) 
+```
+
+## Aufgabe 6
+
+```{r}
+library(BlandAltmanLeh)
+a = c(-2.458, 0.798, 1.23, -0.338, -0.789, -0.255, 0.645, 0.506,
+0.774, -0.511, -0.517, -0.391, 0.681, -2.037, 2.019, -0.447,
+0.122, -0.412, 1.273, -2.165)
+b = c(0.221, 1.321, 1.929, -0.339, -0.515, -0.029, 1.322, 0.951,
+0.799, -0.306, -0.158, 0.144, 1.132, -0.675, 2.534, -0.398,
+0.537, 0.173, 1.508, -1.956)
+bland.altman.plot(a,b)
+```
+
+## Aufgabe 7
+
+```{r}
+Blut = read.csv(file ="blutdruck.csv", sep = "")
+names(Blut)
+```
+```{r}
+hist(Blut$Begin,xlab = "Blutdruck", ylab = "Häufigkeit")
+```
+```{r}
+barplot(c(mean(Blut$Decrease[Blut$Treatment %in% "Calcium"]),
+          mean(Blut$Decrease[Blut$Treatment %in% "Placebo"])),
+        names = c("Calzium","Placebo"), ylab = "Blutdruckdifferenz")
+```
+
+
+
+
+
+
