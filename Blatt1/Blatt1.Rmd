@@ -1,0 +1,184 @@
+---
+title: "Blatt1"
+author: "Tobias"
+date: "17 5 2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#library('jpeg')
+#Bild = jpeg::readJPEG(source = "Aufgabe1cut.JPG")
+#knitr::include_graphics(Bild)  #Funktioniert nicht
+#plot(Bild)
+```
+
+
+## Aufgabe 1.1
+```{r}
+x = c(0,1,2,3)
+y = c(1,1,1,2)
+A = rbind(x,y)  #gegebene Matrix A
+
+
+X = x-mean(x)
+Y = y-mean(y)
+A_ = rbind(X,Y)   #Mittelpunkt der Matrix A in den Ursprung verschoben
+
+
+u = eigen(A_ %*% t(A_))
+v = eigen(t(A_)%*%A_)
+EV = u$vec  #Eigenvektoren der Matrix 
+a_i = EV[,1] %*% A_   #Eigenvektor vom größten Eigenwert mal der verschobenen Matrix
+```
+
+
+
+```{r}
+plot(X,Y,main = 'Zentrierte ursprungswerte mit Hauptachse',col = 2,ylim = c(-1,2))
+lines(c(-2,2),(0.312/0.953)*c(-2,2)) # Achses des größten Eigenvektors
+```
+
+```{r}
+ 
+plot(-1*a_i+mean(x),c(mean(y),mean(y),mean(y),mean(y)),xlab = 'x',ylab = 'y',
+     main = 'Transformierte Werte und Ursprüngliche Werte', ylim = c(0,3))
+points(x,y,col = 2)
+
+pr = prcomp(t(A_))  #principal components analysis (prcomp()$rotation -> Eigenvektoren)
+plot(pr$rotation[,1]%*%A_+mean(x),c(mean(y),mean(y),mean(y),mean(y)),xlab = 'x',ylab = 'y'
+     ,main = 'Transformierte Werte und Ursprüngliche Werte(prcomp)', ylim = c(0,3))
+points(x,y,col = 2)
+```
+Die selbstberechneten Werte stimmen mit den Werten aus der prcomp-Funktion überein.
+Es muss lediglich auf die Vorzeichen der Eigenvektoren geachtet werden.
+
+Kontrolle -> nicht perfekt
+```{r}
+x = c(1.2,1.9,2.5,4.4)
+y = c(1.6,3.9,5.8,7.9)
+A = rbind(x,y)  #gegebene Matrix A
+
+
+X = x-mean(x)
+Y = y-mean(y)
+A_ = rbind(X,Y)
+
+
+u = eigen(A_ %*% t(A_)) # $values(Eigenwerte) $vector(Eigenvektoren)
+v = eigen(t(A_)%*%A_)
+a_i = u$vec[,1] %*% A_
+
+print('Werte')
+v$vec
+sqrt(rbind(c(u$values[1],0),c(0,u$values[2]),c(0,0),c(0,0)))
+u$vec
+print('Probe')
+v$vec %*% sqrt(rbind(c(u$values[1],0),c(0,u$values[2]),c(0,0),c(0,0))) %*% u$vec
+
+
+print('svdPC')
+print('Werte')
+(s <- svd(A_))
+D = rbind(c(s$d[1],0),c(0,s$d[2])) # Als Matrix
+print('Probe')
+s$u %*% D %*% t(s$v)    # Funktioniert
+#d = t(s$u[,1]) %*% A_   # Größter Eigenvektor
+#plot(d[1,]+mean(x),c(mean(y),mean(y),mean(y),mean(y)))
+```
+
+
+
+## Aufgabe 1.2
+#### a)
+Es werden zufällig k Punkte in die Messung eigefügt.
+
+Die Abstände zwischen den Punkten und allen Messwerten wird ermittelt.
+Die Messwerten werden den Punkten zugeordnet.
+Berechnung des Mittelpunktes der zugeordneten Messwerte.
+Verschiebung der k Punkte in die jeweiligen Mittelwerte.
+Beginne von vorne bis Abbruchsbedingung erfüllt ist.
+
+#### b)
+```{r}
+library(ggplot2)
+library(datasets)
+data(iris)
+```
+
+#### c)
+Da es sich um 3 Irisklassen handelt solten auch bei k-means 3 Klassen gewählt werden.
+Da die Lage der eigefügten k Punkte zufällig ist, kann es zu unterschiedlichen Ergebnissen zwischen mehreren durchläufen kommen.
+```{r}
+data = t(rbind(iris$Petal.Length,iris$Petal.Width))
+colnames(data) <- c("Petal.Length", "Petal.Width")
+
+kmeans = kmeans(data,centers = 3,nstart = 20,iter.max = 50)
+```
+
+Darstellung mit polt()
+```{r}
+plot(data,col = kmeans$cluster,main = "k-Means-Clustering auf dem Iris-Datensatz",
+     xlab = "Petal.Length", ylab = "Petal.Width")
+grid()
+legend("topleft", c("setosa","versicolor","virginica"), fill=c("3","2","1"))
+points(kmeans$centers,col = 1:3,pch = 8,cex = 2)
+```
+Darstellung mit ggpolt()
+```{r}
+df = data.frame(data,grup = (kmeans$cluster))
+ggplot(df,aes(Petal.Length,Petal.Width,colour = factor(kmeans$cluster)))+
+  geom_point()+
+  labs(colour = "Iris Zuordnung")
+```
+
+## Aufgabe 1.3
+#### a)
+Es wird eine Epsilonumgebung und die minimale Anzahl der Punkte angegeben, welche sich in der Epsilonumgebung befinden müssen, damit es sich im einen Kernpunkt handelt. Befinden sich weniger Punkte in der Ubgebung, handelt es sich um einen Randpunkt. Sollten keine Punkte in der Umgebung sein, ist es ein Rauschpunkt. 
+```{r}
+library(dbscan)
+
+xunif = runif(100,min = 0,max = 10)
+yunif = runif(100,min = 0,max = 10)
+unif = data.frame(t(rbind(xunif,yunif)))
+
+xnorm = rnorm(100,mean = 5,sd = 1.5)
+ynorm = rnorm(100,mean = 5,sd = 1.5)
+norm = data.frame(t(rbind(xnorm,ynorm)))
+
+dbunif = function(dist,minPts){
+  dbunif = dbscan(dist,1,minPts = minPts) #dist=Verteilung(unif,norm),epsilon=1,minPunkte in Epsilon für Kern-Randpunkt
+
+  rausp = which(dbunif$cluster %in% 0)
+
+  plot(dist,col = dbunif$cluster+1)
+  points(dist[rausp,],pch = 8,cex = 2)
+  grid()
+  legend("bottomright", c("Kernpunkte","Rauschpunkte",minPts),
+         pch = c(1,8,12),horiz = TRUE,col = c(2,1,1))
+}
+
+
+```
+
+
+```{r}
+for (i in c(1:10)) {
+  dbunif(unif,i)
+  i=i+1
+}
+```
+
+
+```{r}
+for (i in c(1:10)) {
+  dbunif(norm,i)
+  i=i+1
+}
+```
+
+Es ist deutlich zu erkennen, dass die Anzahl der Rauschpunkte mit steigendem minPts Wert steigt.
+Da die Punkte, welche genügend nahe Nachbarn in der Epsilonumgebung besitzen, mit steigendem minPts Wert sinkt, war das auch zu erwarten.
