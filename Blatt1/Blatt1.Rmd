@@ -94,6 +94,7 @@ s$u %*% D %*% t(s$v)    # Funktioniert
 
 ## Aufgabe 1.2
 #### a)
+
 Es werden zufällig k Punkte in die Messung eigefügt.
 
 Die Abstände zwischen den Punkten und allen Messwerten wird ermittelt.
@@ -110,6 +111,7 @@ data(iris)
 ```
 
 #### c)
+
 Da es sich um 3 Irisklassen handelt solten auch bei k-means 3 Klassen gewählt werden.
 Da die Lage der eigefügten k Punkte zufällig ist, kann es zu unterschiedlichen Ergebnissen zwischen mehreren durchläufen kommen.
 ```{r}
@@ -137,6 +139,7 @@ ggplot(df,aes(Petal.Length,Petal.Width,colour = factor(kmeans$cluster)))+
 
 ## Aufgabe 1.3
 #### a)
+
 Es wird eine Epsilonumgebung und die minimale Anzahl der Punkte angegeben, welche sich in der Epsilonumgebung befinden müssen, damit es sich im einen Kernpunkt handelt. Befinden sich weniger Punkte in der Ubgebung, handelt es sich um einen Randpunkt. Sollten keine Punkte in der Umgebung sein, ist es ein Rauschpunkt. 
 ```{r}
 library(dbscan)
@@ -150,7 +153,8 @@ ynorm = rnorm(100,mean = 5,sd = 1.5)
 norm = data.frame(t(rbind(xnorm,ynorm)))
 
 dbunif = function(dist,minPts){
-  dbunif = dbscan(dist,1,minPts = minPts) #dist=Verteilung(unif,norm),epsilon=1,minPunkte in Epsilon für Kern-Randpunkt
+  dbunif = dbscan(dist,1,minPts = minPts) 
+   #dist=Verteilung(unif,norm),epsilon=1,minPunkte in Epsilon für Kern-Randpunkt
 
   rausp = which(dbunif$cluster %in% 0)
 
