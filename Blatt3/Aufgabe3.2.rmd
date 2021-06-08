@@ -1,0 +1,72 @@
+---
+title: "Aufgabe 3.2"
+author: "Tobias Janßen"
+date: "08.06.2021"
+output: pdf_document
+---
+### Support Vector Machines (SVM)
+## a)
+Bestimmung einer wesentlichen Teilmenge einer Stichprobe -> Support Vektoren\newline
+Lernphase -> konvexe quadratische Optimierung\newline
+Klassentrennung durch Hyperebene mit neutralem Rand (Margin)\newline
+Hyperebene:  <w,x>+b = 0 | w: Gewicht\newline
+Margin: <w,x>+b = 1|-1\newline
+Breite das Rands maximieren unter Bedingung der Hyperebene als Trennebene\newline
+
+Problem:\newline
+Rauschen -> Soft Margin-Prinzip (Schlupfvariable|Strafterm)\newline
+Nicht Linear -> Projektion in höhere Dimensionen (Kernel-Prinzip|Funktion)\newline
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+library(e1071)
+library(datasets)
+data(iris)
+attach(iris)
+```
+## b)
+```{r}
+SVM = svm(Species ~., data = iris, kernel = 'linear')
+summary(SVM)
+```
+3 Klassen\newline
+29 Stützvektoren\newline
+- 2 in der ersen Klasse, 15 in der Zweiten und 12 in der Dritten\newline
+
+## c)
+```{r}
+pred = predict(SVM, iris)
+print(table(pred,Truth = iris$Species))
+```
+## d)
+```{r}
+plot(SVM,data = iris,Petal.Width~Petal.Length,slice = list(Sepal.Width=3, Sepal.Length=4))
+```
+
+## e)
+
+```{r}
+SVMr = svm(Species ~., data = iris, kernel = 'radial')
+summary(SVMr)
+pred = predict(SVMr, iris)
+print(table(pred,Truth = iris$Species))
+plot(SVMr,data = iris,Petal.Width~Petal.Length,slice = list(Sepal.Width=3, Sepal.Length=4))
+```
+```{r}
+SVMs = svm(Species ~., data = iris, kernel = 'sigmoid')
+summary(SVMs)
+pred = predict(SVMs, iris)
+print(table(pred,Truth = iris$Species))
+plot(SVMs,data = iris,Petal.Width~Petal.Length,slice = list(Sepal.Width=3, Sepal.Length=4))
+```
+```{r}
+SVMp = svm(Species ~., data = iris, kernel = 'polynomial')
+summary(SVMp)
+pred = predict(SVMp, iris)
+print(table(pred,Truth = iris$Species))
+plot(SVMp,data = iris,Petal.Width~Petal.Length,slice = list(Sepal.Width=3, Sepal.Length=4))
+```
+Die klassifikation mit dem radiale Kernel hat die geringsten falsch klassifizierten Ereignisse (4) dafür aber 51 Stützvektoren.\newline
+Der lineare Kernel hat nur 29 Stützvektoren und nur ein falsch klassiviziertes ereigniss mehr.
+
