@@ -11,9 +11,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 #library('jpeg')
-#Bild = jpeg::readJPEG(source = "Aufgabe1cut.JPG")
-#knitr::include_graphics(Bild)  #Funktioniert nicht
-#plot(Bild)
+#Bild = jpeg::readJPEG(source = "Aufgabe1cut.JPG",native = TRUE)
+##knitr::include_graphics(Bild)  #Funktioniert nicht
+#plot(0:1,0:1,type = 'n',ann=FALSE,axes = FALSE)
+#rasterImage(Bild,0,0,1,1)
 ```
 
 

@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Graph 1)
 
 #### a)
-Ordung = 2 %Anzahl der Knoten, Anzahl der kanten aus Knoten
+Ordung = 5 %Anzahl der Knoten
 
 ### b)
 0 1 0 1 0 \newline
@@ -72,7 +72,7 @@ Senken = E (1)
 ## Graph 4)
 
 #### a)
-Ordung = 2
+Ordung = 5
 
 ### b)
 0 1 1 0 0 \newline
@@ -86,7 +86,7 @@ Ordung = 2
 ## Graph 5)
 
 #### a)
-Ordung = 4
+Ordung = 7
 
 ### b)
 0 1 0 1 0 0 0 \newline
@@ -106,7 +106,7 @@ Nachbern G = F
 ## Graph 6)
 
 #### a)
-Ordung = 4
+Ordung = 7
 
 #### b)
 0    0.5 0    0    0    0    0 \newline
@@ -212,3 +212,8 @@ Senken
 
 ```
 
+# Aufgabe 2.5
+
+inorder: d c e b g f a h j i k \newline
+preorder: a b c d e f g h i j k \newline
+Postorder: d e c g f b j k i h a \newline
