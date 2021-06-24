@@ -11,8 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Aufgabe 2
 #### a)
 ```{r}
-A <- matrix(c(1,2,3, 4,5,6, 7,8,9), nrow = 3 , ncol = 3)
-B <- matrix(c(9,8,7, 6,5,4, 3,2,1), nrow = 3 , ncol = 3)
+A <- t(matrix(c(1,2,3, 4,5,6, 7,8,9), nrow = 3 , ncol = 3))
+B <- t(matrix(c(9,8,7, 6,5,4, 3,2,1), nrow = 3 , ncol = 3))
 
 C = A%*%B
 C
