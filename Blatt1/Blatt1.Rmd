@@ -33,7 +33,7 @@ A_ = rbind(X,Y)   #Mittelpunkt der Matrix A in den Ursprung verschoben
 u = eigen(A_ %*% t(A_))
 v = eigen(t(A_)%*%A_)
 EV = u$vec  #Eigenvektoren der Matrix 
-a_i = EV[,1] %*% A_   #Eigenvektor vom größten Eigenwert mal der verschobenen Matrix
+a_i = (-1)*EV[,1] %*% A_   #Eigenvektor vom größten Eigenwert mal der verschobenen Matrix
 ```
 
 
@@ -45,8 +45,11 @@ lines(c(-2,2),(0.312/0.953)*c(-2,2)) # Achses des größten Eigenvektors
 
 ```{r}
  
-plot(-1*a_i+mean(x),c(mean(y),mean(y),mean(y),mean(y)),xlab = 'x',ylab = 'y',
+plot(a_i+mean(x),c(mean(y),mean(y),mean(y),mean(y)),xlab = 'x',ylab = 'y',
      main = 'Transformierte Werte und Ursprüngliche Werte', ylim = c(0,3))
+#plot(a_i,(0.312/0.953)*a_i,xlab = 'x',ylab = 'y',
+#     main = 'Transformierte Werte und Ursprüngliche Werte', ylim = c(-2,2))
+#lines(c(-2,2),(0.312/0.953)*c(-2,2))
 points(x,y,col = 2)
 
 pr = prcomp(t(A_))  #principal components analysis (prcomp()$rotation -> Eigenvektoren)
@@ -96,13 +99,13 @@ s$u %*% D %*% t(s$v)    # Funktioniert
 ## Aufgabe 1.2
 #### a)
 
-Es werden zufällig k Punkte in die Messung eigefügt.
+Es werden zufällig k Punkte in die Messung eigefügt.\newline
 
-Die Abstände zwischen den Punkten und allen Messwerten wird ermittelt.
-Die Messwerten werden den Punkten zugeordnet.
-Berechnung des Mittelpunktes der zugeordneten Messwerte.
-Verschiebung der k Punkte in die jeweiligen Mittelwerte.
-Beginne von vorne bis Abbruchsbedingung erfüllt ist.
+Die Abstände zwischen den Punkten und allen Messwerten wird ermittelt.\newline
+Die Messwerte werden dem Punkt mit dem kleinsten Abstand zugeordnet.\newline
+Berechnung des Mittelpunktes der zugeordneten Messwerte.\newline
+Verschiebung der k Punkte in die jeweiligen Mittelwerte. \newline
+Beginne von vorne bis Abbruchsbedingung erfüllt ist.\newline
 
 #### b)
 ```{r}

@@ -161,14 +161,14 @@ Nachbern G = F
 * Topologie-Form-Metrik-Ansatz
   * Topologie, Form und Metrik müssen gleich bleiben.
   * Vereinfachung durch Planarisierung(keine Kantenschnitte), Orthogonalisierung(+Minimierung der Knicke) und Kompaktifizierung(Fläche minimiert).
-* Hierarchischer Ansatz (azyklisch)
-  * Jedem Knoten eine Schicht(+Dummy-Knoten)
-  * Ordnung der Schichten + Kantenschnitte minimieren
+* Hierarchischer Ansatz (azyklisch)[Aufgabe 2.4]
+  * Jeder Knoten auf eine Schicht(+Dummy-Knoten)
+  * Ordnung innerhalb der Schichten + Kantenschnitte minimieren
   * Dummy-Knoten durch Knicke ersetzt (minimierung) + Symetrien betonen
 * Sichtbarkeitsansatz
   * Planarisierung(Topologie-Form-Metrik Ansatz)
-  * Sichtbakeitsschritt(Konten horizontal, Kanten vertikal) (Erreichbare Punkte sind sichtbar.)
-  * Ersetzungsschritt (knoten durch Punkt und vertikale Kante durch Polylinie)
+  * Sichtbarkeitsschritt(Knoten horizontal, Kanten vertikal) (Erreichbare Punkte sind sichtbar.)
+  * Ersetzungsschritt (Knoten durch Punkt und vertikale Kante durch Polylinie)
 * Verfeinerungsansatz
   * Planarisierung
   * Vereinfachung (Fügt Knoten hinzu damit Facette immer drei Seiten hat)
