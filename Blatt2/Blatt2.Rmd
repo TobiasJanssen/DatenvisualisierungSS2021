@@ -99,7 +99,7 @@ Ordung = 7
 
 
 #### d)
-Nachbern G = F
+Nachbern G = E
 
 
 
@@ -123,7 +123,7 @@ Quellen = E (2)\newline
 Senken = F (2)
 
 #### d)
-Nachbern G = F
+Nachbern G = F (C,D,E,F)
 
 
 # Aufgabe 2.2
